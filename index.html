@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Inventory Dashboard</title>
+    <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+    <header>
+        <div class="header-text">WELCOME ADMIN USER</div>
+    </header>
+
+    <main>
+        <div class="filter-bar">
+            <button class="filter-button">🔍 All Items</button>
+        </div>
+
+        <div class="add-product">
+            <h2>＋ ADD NEW PRODUCT</h2>
+            <form id="productForm">
+                <input type="text" id="productName" placeholder="Product Name" required />
+                <select id="category" required>
+                    <option value="">Select category</option>
+                    <option value="Food">Food</option>
+                    <option value="Drinks">Drinks</option>
+                </select>
+                <input type="date" id="expiryDate" required />
+                <input type="number" id="quantity" placeholder="Quantity" required />
+                <button type="submit">Add Product</button>
+            </form>
+        </div>
+
+        <div class="inventory-list">
+            <h3>INVENTORY LIST (<span id="itemCount">0</span> items)</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Product Name</th>
+                        <th>Category</th>
+                        <th>Expiry Date</th>
+                        <th>Quantity</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="inventoryTable">
+                </tbody>
+            </table>
+        </div>
+    </main>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
