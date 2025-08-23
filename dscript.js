@@ -7,35 +7,18 @@ document.addEventListener("DOMContentLoaded", () => {
   const inventoryBody = document.getElementById("inventoryBody");
   const count = document.getElementById("count");
   const searchBar = document.getElementById("searchBar");
-  const filterCategory = document.createElement("select");
-  const recentsList = document.createElement("ul");
+  const filterCategory = document.getElementById("filterCategory");
+  const filterExpiry = document.getElementById("filterExpiry");
+  const recentsList = document.getElementById("recentsList");
 
   // Data storage
   let inventory = [];
   let recents = [];
 
-  // --- Create Category Filter Dropdown ---
-  filterCategory.innerHTML = `
-    <option value="all">All Categories</option>
-    <option value="Food">Food</option>
-    <option value="Drinks">Drinks</option>
-    <option value="Other">Other</option>
-  `;
-  filterCategory.id = "filterCategory";
-  document.querySelector(".header-row").appendChild(filterCategory);
-
-  // --- Create Recents Panel ---
-  const recentsCard = document.createElement("div");
-  recentsCard.classList.add("card");
-  recentsCard.innerHTML = `<h3>RECENTS</h3>`;
-  recentsCard.appendChild(recentsList);
-  document.querySelector(".container").appendChild(recentsCard);
-
   // --- Functions ---
 
   function logRecent(action) {
-    let time = new Date().toLocaleString();
-    recents.unshift(`${time} - ${action}`);
+    recents.unshift(action);
     if (recents.length > 10) recents.pop();
     renderRecents();
   }
@@ -52,8 +35,14 @@ document.addEventListener("DOMContentLoaded", () => {
   function getStatus(item) {
     let today = new Date();
     let expiryDate = new Date(item.expiry);
+    let soonDate = new Date();
+    soonDate.setDate(today.getDate() + 7);
 
     if (expiryDate < today) return "Expired";
+    if (expiryDate >= today && expiryDate <= soonDate) {
+      if (item.qty <= 0) return "Not Available";
+      return "Available (Near Expiration)";
+    }
     if (item.qty <= 0) return "Not Available";
     return "Available";
   }
@@ -61,24 +50,48 @@ document.addEventListener("DOMContentLoaded", () => {
   function renderInventory() {
     let searchText = searchBar.value.toLowerCase();
     let selectedCategory = filterCategory.value;
+    let selectedExpiry = filterExpiry.value;
+    let today = new Date();
+    let soonDate = new Date();
+    soonDate.setDate(today.getDate() + 7);
 
     inventoryBody.innerHTML = "";
 
     let filtered = inventory.filter(item => {
       let matchesSearch = item.name.toLowerCase().includes(searchText);
       let matchesCategory = selectedCategory === "all" || item.category === selectedCategory;
-      return matchesSearch && matchesCategory;
+
+      let expiryDate = new Date(item.expiry);
+      let isExpired = expiryDate < today;
+      let isSoon = expiryDate >= today && expiryDate <= soonDate;
+
+      let matchesExpiry =
+        selectedExpiry === "all" ||
+        (selectedExpiry === "expired" && isExpired) ||
+        (selectedExpiry === "soon" && isSoon) ||
+        (selectedExpiry === "valid" && !isExpired && !isSoon);
+
+      return matchesSearch && matchesCategory && matchesExpiry;
     });
 
     filtered.forEach(item => {
       let row = document.createElement("tr");
+      let expiryDate = new Date(item.expiry);
+
+      // highlight expired or soon rows
+      if (expiryDate < today) {
+        row.style.backgroundColor = "#fee2e2"; // light red expired
+      } else if (expiryDate >= today && expiryDate <= soonDate) {
+        row.style.backgroundColor = "#fef9c3"; // light yellow soon
+      }
+
       row.innerHTML = `
         <td>${item.name}</td>
         <td>${item.category}</td>
         <td>${item.expiry}</td>
         <td>${item.qty}</td>
         <td>${getStatus(item)}</td>
-        <td><button class="deleteBtn" data-id="${item.id}">❌</button></td>
+        <td><button class="delete-btn" data-id="${item.id}">❌</button></td>
       `;
       inventoryBody.appendChild(row);
     });
@@ -86,7 +99,7 @@ document.addEventListener("DOMContentLoaded", () => {
     count.textContent = filtered.length;
 
     // Delete button listeners
-    document.querySelectorAll(".deleteBtn").forEach(btn => {
+    document.querySelectorAll(".delete-btn").forEach(btn => {
       btn.addEventListener("click", () => {
         deleteItem(parseInt(btn.dataset.id));
       });
@@ -108,9 +121,10 @@ document.addEventListener("DOMContentLoaded", () => {
     };
 
     inventory.push(newItem);
-    logRecent(`Added product: ${newItem.name}`);
     renderInventory();
+    logRecent(`Added: ${newItem.name}`);
 
+    // reset fields
     pname.value = "";
     pcategory.value = "";
     pexpiry.value = "";
@@ -120,7 +134,7 @@ document.addEventListener("DOMContentLoaded", () => {
   function deleteItem(id) {
     let index = inventory.findIndex(item => item.id === id);
     if (index !== -1) {
-      logRecent(`Deleted product: ${inventory[index].name}`);
+      logRecent(`Deleted: ${inventory[index].name}`);
       inventory.splice(index, 1);
       renderInventory();
     }
@@ -128,28 +142,41 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // --- Event Listeners ---
   addBtn.addEventListener("click", addItem);
+
+  // Live filtering (no logs)
   searchBar.addEventListener("input", () => {
     renderInventory();
-    logRecent(`Searched: "${searchBar.value}"`);
-  });
-  filterCategory.addEventListener("change", () => {
-    renderInventory();
-    logRecent(`Filtered by: ${filterCategory.value}`);
   });
 
-  // Sidebar toggle
-  profileBtn.addEventListener("click", () => sidebar.style.display = "block");
-  closeSidebar.addEventListener("click", () => sidebar.style.display = "none");
-
-  // Sidebar actions
-  document.querySelector(".sidebar ul").addEventListener("click", e => {
-    if (e.target.textContent.includes("Logout")) {
-      logRecent("User logged out");
-      alert("Logged out!");
-    } else if (e.target.textContent.includes("Recents")) {
-      recentsCard.scrollIntoView({ behavior: "smooth" });
+  // Log search only when pressing Enter
+  searchBar.addEventListener("keydown", (e) => {
+    if (e.key === "Enter" && searchBar.value.trim() !== "") {
+      logRecent(`Searched: ${searchBar.value}`);
     }
   });
+
+  filterCategory.addEventListener("change", () => {
+    renderInventory();
+    logRecent(`Filtered by Category: ${filterCategory.value}`);
+  });
+
+  filterExpiry.addEventListener("change", () => {
+    renderInventory();
+    logRecent(`Filtered by Expiry: ${filterExpiry.value}`);
+  });
+
+  // All Items button resets filters & search
+  const allBtn = document.querySelector(".all-btn");
+  if (allBtn) {
+    allBtn.addEventListener("click", () => {
+      searchBar.value = "";
+      filterCategory.value = "all";
+      filterExpiry.value = "all";
+      renderInventory();
+      logRecent("Viewed all items");
+      document.querySelector(".inventory-card").scrollIntoView({ behavior: "smooth" });
+    });
+  }
 
   // Initial render
   renderInventory();
@@ -157,11 +184,11 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 // Logout button logic
-document.getElementById("logoutBtn").addEventListener("click", function () {
-  // Clear any stored session/local data if needed
-  localStorage.clear();
-  sessionStorage.clear();
-
-  // Redirect to login page
-  window.location.href = "login.html";
-});
+const logoutBtn = document.getElementById("logoutBtn");
+if (logoutBtn) {
+  logoutBtn.addEventListener("click", function () {
+    localStorage.clear();
+    sessionStorage.clear();
+    window.location.href = "login.html";
+  });
+}

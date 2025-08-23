@@ -17,7 +17,7 @@ form {
     background: #fff;
     padding: 30px;
     border-radius: 15px;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
     text-align: center;
     width: 350px;
 }
@@ -45,6 +45,7 @@ input {
     outline: none;
 }
 
+.Tfname,
 .Tfemail,
 .Tfpass {
     height: 35px;
@@ -52,7 +53,7 @@ input {
     margin-bottom: 15px;
 }
 
-.logbtn,
+.regbtn,
 .clearbtn {
     background-color: rgb(95, 95, 95);
     border: none;
@@ -65,26 +66,26 @@ input {
     cursor: pointer;
 }
 
-.logbtn:hover,
+.regbtn:hover,
 .clearbtn:hover {
     background-color: rgb(70, 70, 70);
     transform: scale(1.05);
 }
 
-.register-text {
+.login-text {
     margin-top: 15px;
     font-size: 14px;
     color: #4a3b2f;
 }
 
-.register-text a {
+.login-text a {
     color: #5a3e2b;
     font-weight: bold;
     text-decoration: none;
     transition: color 0.3s ease;
 }
 
-.register-text a:hover {
+.login-text a:hover {
     color: #d18b47;
     text-decoration: underline;
 }
