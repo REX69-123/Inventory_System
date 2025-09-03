@@ -1,5 +1,5 @@
-CREATE DATABASE InventorySystem;
-USE InventorySystem;
+CREATE DATABASE InventorySys_db;
+USE InventorySys_db;
 
 CREATE TABLE users (
     id INT AUTO_INCREMENT PRIMARY KEY,
