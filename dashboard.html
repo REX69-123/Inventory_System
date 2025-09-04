@@ -20,18 +20,21 @@
     <button class="all-btn">🔍 All Items</button>
 
     <div class="card">
+      
       <h2>+ ADD NEW PRODUCT</h2>
       <div class="form-group">
-        <input type="text" id="pname" placeholder="Product Name">
-        <select id="pcategory">
+        <form action="dashboard.php" method="POST" id="addForm" name="form">
+        <input type="text" id="pname" placeholder="Product Name" name="product_name">
+        <select id="pcategory" name="category">
           <option value="">Select category</option>
           <option value="Food">Food</option>
           <option value="Drinks">Drinks</option>
           <option value="Other">Other</option>
         </select>
-        <input type="date" id="pexpiry">
-        <input type="number" id="pqty" placeholder="Quantity">
-        <button id="addBtn">Add Product</button>
+        <input type="date" id="pexpiry" name="date">
+        <input type="number" id="pqty" placeholder="Quantity" name="quantity">
+        <button id="" type="submit" name="submit">Add Item</button>
+      </form>
       </div>
     </div>
 
@@ -83,6 +86,8 @@
       </div>
     </div>
   </div>
+
+
 
   <script src="dscript.js"></script>
 </body>

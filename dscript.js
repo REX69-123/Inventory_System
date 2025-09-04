@@ -11,6 +11,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const filterExpiry = document.getElementById("filterExpiry");
   const recentsList = document.getElementById("recentsList");
 
+
   // Data storage
   let inventory = [];
   let recents = [];
@@ -109,8 +110,8 @@ document.addEventListener("DOMContentLoaded", () => {
   function addItem() {
     if (!pname.value || !pcategory.value || !pexpiry.value || !pqty.value) {
       alert("Please fill all fields");
-      return;
-    }
+      return false ;
+    };
 
     let newItem = {
       id: Date.now(),
@@ -119,6 +120,8 @@ document.addEventListener("DOMContentLoaded", () => {
       expiry: pexpiry.value,
       qty: parseInt(pqty.value)
     };
+
+    
 
     inventory.push(newItem);
     renderInventory();
@@ -129,6 +132,7 @@ document.addEventListener("DOMContentLoaded", () => {
     pcategory.value = "";
     pexpiry.value = "";
     pqty.value = "";
+
   }
 
   function deleteItem(id) {
@@ -192,3 +196,4 @@ if (logoutBtn) {
     window.location.href = "login.html";
   });
 }
+
