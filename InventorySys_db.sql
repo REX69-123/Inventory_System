@@ -5,6 +5,8 @@ CREATE TABLE items (
     id INT AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(100) NOT NULL,
     description TEXT,
+	category VARCHAR(50),
+    expiry DATE,
     quantity INT DEFAULT 0,
     price DECIMAL(10,2) DEFAULT 0.00
 );
