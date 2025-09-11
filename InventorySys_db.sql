@@ -9,6 +9,15 @@ CREATE TABLE items (
     price DECIMAL(10,2) DEFAULT 0.00
 );
 
+UPDATE items
+SET name = ?,
+    category = ?,
+    expiry_date = ?,
+    quantity = ?,
+    status = ?
+WHERE id = ?;
+};
+
 CREATE TABLE transactions (
     id INT AUTO_INCREMENT PRIMARY KEY,
     item_id INT NOT NULL,
@@ -17,3 +26,11 @@ CREATE TABLE transactions (
     FOREIGN KEY (item_id)
 	REFERENCES items (id)
 );
+
+ALTER TABLE transactions
+ADD COLUMN type ENUM('ADD','REMOVE','EDIT','DELETE') DEFAULT 'ADD';
+};
+
+
+
+
