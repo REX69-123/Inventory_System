@@ -4,6 +4,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const pcategory = document.getElementById("pcategory");
   const pexpiry = document.getElementById("pexpiry");
   const pqty = document.getElementById("pqty");
+  const pprice = document.getElementById("pprice");
   const inventoryBody = document.getElementById("inventoryBody");
   const count = document.getElementById("count");
   const searchBar = document.getElementById("searchBar");
@@ -91,6 +92,7 @@ document.addEventListener("DOMContentLoaded", () => {
         <td>${item.category}</td>
         <td>${item.expiry}</td>
         <td>${item.qty}</td>
+        <td>₱${item.price}</td> 
         <td>${getStatus(item)}</td>
         <td><button class="delete-btn" data-id="${item.id}">❌</button></td>
       `;
@@ -113,14 +115,14 @@ document.addEventListener("DOMContentLoaded", () => {
       return false ;
     };
 
-    let newItem = {
-      id: Date.now(),
-      name: pname.value,
-      category: pcategory.value,
-      expiry: pexpiry.value,
-      qty: parseInt(pqty.value)
-    };
-
+   let newItem = {
+  id: Date.now(),
+  name: pname.value,
+  category: pcategory.value,
+  expiry: pexpiry.value,
+  qty: parseInt(pqty.value),
+  price: parseFloat(pprice.value).toFixed(2)  // added
+};
     
 
     inventory.push(newItem);
@@ -132,7 +134,7 @@ document.addEventListener("DOMContentLoaded", () => {
     pcategory.value = "";
     pexpiry.value = "";
     pqty.value = "";
-
+    pprice.value = "";
   }
 
   function deleteItem(id) {
