@@ -187,13 +187,80 @@ document.addEventListener("DOMContentLoaded", () => {
   renderRecents();
 });
 
+// --- Edit Feature Additions ---
+let editId = null;
+
+function openEditModal(item) {
+  document.getElementById("editModal").style.display = "block";
+  document.getElementById("editName").value = item.name;
+  document.getElementById("editCategory").value = item.category;
+  document.getElementById("editExpiry").value = item.expiry;
+  document.getElementById("editQty").value = item.qty;
+  editId = item.id;
+}
+
+function closeEditModal() {
+  document.getElementById("editModal").style.display = "none";
+  editId = null;
+}
+
+// Save button
+document.getElementById("saveEdit").addEventListener("click", () => {
+  if (editId !== null) {
+    let index = inventory.findIndex(i => i.id === editId);
+    if (index !== -1) {
+      inventory[index].name = document.getElementById("editName").value;
+      inventory[index].category = document.getElementById("editCategory").value;
+      inventory[index].expiry = document.getElementById("editExpiry").value;
+      inventory[index].qty = parseInt(document.getElementById("editQty").value);
+
+      renderInventory();
+      logRecent(`Edited: ${inventory[index].name}`);
+      closeEditModal();
+    }
+  }
+});
+
+// Cancel button
+document.getElementById("cancelEdit").addEventListener("click", closeEditModal);
+
+// Add Edit buttons dynamically
+function addEditButtons() {
+  document.querySelectorAll(".edit-btn").forEach(btn => {
+    btn.addEventListener("click", () => {
+      let id = parseInt(btn.dataset.id);
+      let item = inventory.find(i => i.id === id);
+      if (item) openEditModal(item);
+    });
+  });
+}
+
+// Modify renderInventory to add edit button without changing old code
+const oldRenderInventory = renderInventory;
+renderInventory = function () {
+  oldRenderInventory();
+  document.querySelectorAll("#inventoryBody tr").forEach((row, index) => {
+    let item = inventory[index];
+    if (item) {
+      let actionsCell = row.querySelector("td:last-child");
+      if (!actionsCell.querySelector(".edit-btn")) {
+        let editBtn = document.createElement("button");
+        editBtn.textContent = "✏️";
+        editBtn.className = "edit-btn";
+        editBtn.dataset.id = item.id;
+        actionsCell.prepend(editBtn);
+      }
+    }
+  });
+  addEditButtons();
+};
+
 // Logout button logic
 const logoutBtn = document.getElementById("logoutBtn");
 if (logoutBtn) {
   logoutBtn.addEventListener("click", function () {
     localStorage.clear();
     sessionStorage.clear();
-    window.location.href = "login.html";
+    window.location.href = "index.html";
   });
 }
-

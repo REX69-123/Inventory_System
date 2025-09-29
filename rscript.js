@@ -17,5 +17,5 @@ document.getElementById("registerForm").addEventListener("submit", function (e) 
   }
 
   alert("Registration successful! You can now login.");
-  window.location.href = "login.html";
+  window.location.href = "index.html";
 });
