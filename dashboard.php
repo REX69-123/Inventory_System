@@ -1,57 +1,37 @@
 <?php
-
-
+// Place this at the top of dashboard.php (before any HTML)
 $servername = "localhost"; 
 $username = "root";        
 $password = "";            
-$dbname = "database_dashboard"; // Replace with your database name
+$dbname = "database_dashboard";
 
+// Create connection
 $conn = new mysqli($servername, $username, $password, $dbname);
+if ($conn->connect_error) {
+    echo "<script>alert('Connection failed.');</script>";
+    exit;
+} else {
+    echo "<script>alert('Connection succeeded.');</script>";
+}
 
-if ($conn) {
-
-    echo"Connection True" ;
-
-} 
-    
-if (isset($_POST['submit']))  {
-
-    $id = NULL ;
-    $product_name = $_POST['product_name'];
-    $category = $_POST['category'];
+if ($_SERVER["REQUEST_METHOD"] === "POST") {
+    $product_name = trim($_POST['product_name']);
+    $category = trim($_POST['category']);
     $date = $_POST['date'];
-    $quantity = $_POST['quantity'];
+    $quantity = intval($_POST['quantity']);
 
-    if(empty($product_name && $category && $date && $quantity)) {
-        
-        echo"Empty field" ;
-
+    if (empty($product_name) || empty($category) || empty($date) || $quantity < 0) {
+        echo "<script>alert('Please fill in all fields correctly.');</script>";
     } else {
+        $sql = "INSERT INTO product_inventory (product_name, category, `date`, quantity) 
+                VALUES ('$product_name', '$category', '$date', $quantity)";
 
-    $sql = "INSERT INTO product_inventory (id, product_name, category, `date`, quantity) 
-            VALUES ('$id', '$product_name', '$category', '$date', '$quantity')";
+        if ($conn->query($sql) === TRUE) {
+            echo "success";
+        } else {
+            echo "error: Failed to insert data: " . $conn->error;
+        }
 
-    if($conn->query($sql) === TRUE) {
-
-        echo"Data Transferred Successfully" ;
-        print_r($_POST);
-
-    } else {
-
-        echo"Data Transferred Unsuccessfully" ;
+        exit;
     }
-
-    }
-
-    } else {
-
-    echo"No data found!!!";
-
-    }
-
-
-
-$conn->close();
-
-
-?>
+}
