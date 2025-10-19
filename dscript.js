@@ -5,6 +5,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const filterCategory = document.getElementById("filterCategory");
   const filterExpiry = document.getElementById("filterExpiry");
   const searchBar = document.getElementById("searchBar");
+  
 
   // Load inventory from PHP
   function loadInventory() {
@@ -19,6 +20,9 @@ document.addEventListener("DOMContentLoaded", () => {
       console.log("PHP returned:", html); // Debug raw HTML
       inventoryBody.innerHTML = html.trim();
       applyFilters(); // ✅ Apply filters after loading new data
+      attachDeleteListeners(); // Applys the deletebutton function
+      attachEditListeners(); // Applys the edit function
+
 
       // Count only rows that have real data (exclude the "No inventory found" row)
       const rows = inventoryBody.querySelectorAll("tr");
@@ -64,6 +68,8 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 
+
+  // filters out the data from the table
   function applyFilters() {
   const categoryFilter = filterCategory.value.toLowerCase();
   const expiryFilter = filterExpiry.value.toLowerCase();
@@ -90,8 +96,138 @@ document.addEventListener("DOMContentLoaded", () => {
   count.textContent = visibleCount;
 }
 
+
+// delete button function
+function attachDeleteListeners() {
+  const deleteButtons = document.querySelectorAll(".deleteBtn");
+
+  deleteButtons.forEach(button => {
+
+    button.addEventListener("click", function () {
+
+      const id = this.getAttribute("data-id");
+      
+      if (confirm("Are you sure you want to delete this product?")) {
+        fetch('delete_button.php', {
+
+          method: "POST",
+          headers: {
+          "Content-Type": "application/x-www-form-urlencoded"  // this will let function know the id variable
+          },
+          body: "id=" + encodeURIComponent(id)
+
+        })
+          .then(response => response.text())
+          .then(result => {
+
+            const trimmed = result.trim(); // the response from the delete_button.php
+
+            console.log("Server response:", trimmed); // for debugging
+
+            if (trimmed === "success") {
+              alert("Item deleted successfully: " + id);
+              loadInventory(); // reload inventory after delete
+              document.getElementById("editModal").style.display = "none";
+            } else {
+              alert("Error deleting item: " + id);
+            }
+          })
+          .catch(error => {
+            console.error("Delete error:", error);
+            alert("Failed to delete item.");
+          });
+      }
+    });
+  });
+}
+
+// the edit feature function
+function attachEditListeners() {
+  const editButtons = document.querySelectorAll(".editBtn");
+
+  editButtons.forEach(button => {
+    button.addEventListener("click", function () {
+      const id = this.getAttribute("data-id");
+      const name = this.getAttribute("data-name");
+      const category = this.getAttribute("data-category");
+      const expiry = this.getAttribute("data-expiry");
+      const qty = this.getAttribute("data-qty");
+
+      // Fill modal form
+      document.getElementById("editName").value = name.trim();
+      document.getElementById("editCategory").value = category.trim();
+      document.getElementById("editExpiry").value = expiry.trim();
+      document.getElementById("editQty").value = qty.trim();
+
+      // Store the id on modal for saving
+      document.getElementById("editModal").setAttribute("data-id", id);
+
+      // Show modal
+      document.getElementById('overlay').style.display = 'block';
+      document.getElementById('editModal').style.display = 'block';
+
+      document.getElementById("editName").focus();
+      console.log("Category to set:", `"${id}"`);
+      console.log("Category to set:", `"${name}"`);
+      console.log("Category to set:", `"${category}"`);
+      console.log("Category to set:", `"${expiry}"`);
+      console.log("Category to set:", `"${qty}"`);
+      
+    });
+  });
+}
+
+// the save chnages button from th edit modal
+document.getElementById("saveEdit").addEventListener("click", function () {
+
+  const id = document.getElementById("editModal").getAttribute("data-id");
+  const name = document.getElementById("editName").value;
+  const category = document.getElementById("editCategory").value;
+  const expiry = document.getElementById("editExpiry").value;
+  const qty = document.getElementById("editQty").value;
+
+  if (!name || !category || !expiry || !qty) {
+        alert("Please fill in all fields before saving.");
+        return; // stop here, don’t continue
+  }
+
+  fetch("edit_button.php", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/x-www-form-urlencoded"
+    },
+    body: `id=${id}&product_name=${encodeURIComponent(name)}&category=${encodeURIComponent(category)}
+          &date=${encodeURIComponent(expiry)}&quantity=${encodeURIComponent(qty)}`
+  })
+    .then(response => response.text())
+    .then(result => {
+      const trimmed = result.trim(); // Clean response
+
+      console.log("Server response:", trimmed); // Debugging
+
+      if (trimmed === "success") {
+        alert("Product updated!");
+        document.getElementById("editModal").style.display = "none";
+        loadInventory(); // Reload the inventory list
+      } else {
+        alert("Failed to update product: " + trimmed);
+      }
+    })
+    .catch(error => {
+      console.error("Edit error:", error);
+      alert("Error updating product.");
+    })});
+
+
+// the cancel button from th edit modal
+document.getElementById("cancelEdit").addEventListener("click", function () {
+document.getElementById("editModal").style.display = "none";
+document.getElementById('overlay').style.display = 'none';
+});
+
   // Initial load
   loadInventory();
+  
   
   filterCategory.addEventListener("change", applyFilters);
   filterExpiry.addEventListener("change", applyFilters);

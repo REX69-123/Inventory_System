@@ -240,6 +240,57 @@ header {
   color: #444;
 }
 
+.modal {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0,0,0,0.5); /* dim background */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000; /* on top */
+}
+
+.modal-content {
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
+  min-width: 300px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+}
+/* Fullscreen semi-transparent overlay */
+#overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;   /* full viewport width */
+  height: 100vh;  /* full viewport height */
+  background-color: rgba(6, 255, 26, 0.4); /* semi-transparent black */
+  z-index: 1000; /* behind modal but above everything else */
+}
+
+/* Ensure your modal has a higher z-index than overlay */
+#editModal {
+  z-index: 1001;
+  /* Make sure it's positioned fixed or absolute to stay on top */
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+#saveEdit {
+  background-color: #4CAF50;
+  color: white;
+}
+
+#cancelEdit {
+  background-color: #ccc;
+  color: black;
+}
+
+
 /* Responsive */
 @media (max-width: 768px) {
   .inventory-layout {
@@ -252,3 +303,4 @@ header {
     border-top: 3px solid #0066ff;
   }
 }
+

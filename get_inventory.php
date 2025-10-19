@@ -14,11 +14,11 @@ $result = $conn->query($sql);
 
 if ($result && $result->num_rows > 0) {
     while ($row = $result->fetch_assoc()) {
-        $id   = (int)$row['id'];
-        $name = htmlspecialchars($row['product_name']);
-        $cat  = htmlspecialchars($row['category']);
-        $date = htmlspecialchars($row['date']);
-        $qty  = (int)$row['quantity'];
+        $id   = trim((int)$row['id']);
+        $name = trim(htmlspecialchars($row['product_name']));
+        $cat  = trim(htmlspecialchars($row['category']));
+        $date = trim(htmlspecialchars($row['date']));
+        $qty  = trim((int)$row['quantity']);
 
         // compute status
         $expiry = strtotime($row['date']);
@@ -38,7 +38,14 @@ if ($result && $result->num_rows > 0) {
         echo "<td>{$qty}</td>";
         echo "<td>{$status}</td>";
         echo "<td>
-                <button class='editBtn' data-id='{$id}'>✏️ Edit_$id</button>
+                <button 
+                class='editBtn' 
+                data-id='{$id}' 
+                data-name='{$name}' 
+                data-category='{$cat}' 
+                data-expiry='{$date}' 
+                data-qty='{$qty}'
+                >✏️ Edit</button>
                 <button class='deleteBtn' data-id='{$id}'>🗑️ Delete_$id</button>
               </td>";
         echo "</tr>";
