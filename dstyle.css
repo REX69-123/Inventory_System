@@ -53,21 +53,6 @@ button {
   background: #0044cc;
 }
 
-.all-btn {
-  padding: 10px 16px;
-  background: #e0e7ff;
-  border: none;
-  border-radius: 8px;
-  color: #1d4ed8;
-  font-weight: bold;
-  margin-bottom: 20px;
-  transition: 0.3s;
-}
-
-.all-btn:hover {
-  background: #c7d2fe;
-}
-
 /* Form */
 .form-group {
   display: flex;
@@ -147,12 +132,89 @@ th {
   background: #dc2626;
 }
 
-/* Header Row */
-.header-row {
+/* ===== HEADER LAYOUT ===== */
+/* Header style (consistent with dstyle.css) */
+header {
+  background: linear-gradient(90deg, #0066ff, #00c3ff);
+  color: white;
+  padding: 18px 25px;
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  margin-bottom: 12px;
+  justify-content: space-between;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Dropdown button */
+.menu-btn {
+  background: #00c3ff;
+  color: white;
+  border: none;
+  padding: 8px 14px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background 0.3s;
+}
+
+.menu-btn:hover {
+  background: #0099cc;
+}
+
+/* Dropdown container */
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+/* Hidden by default */
+.dropdown-content {
+  display: none; /* hidden by default */
+  position: absolute;
+  background-color: white;
+  min-width: 160px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+  border-radius: 6px;
+  overflow: hidden;
+  z-index: 9999; /* on top */
+  top: 40px;
+  left: 0;
+}
+
+/* Show dropdown */
+.dropdown-content.show {
+  display: block;
+}
+
+.dropdown-content a {
+  color: #333;
+  padding: 10px 14px;
+  text-decoration: none;
+  display: block;
+  font-size: 14px;
+  transition: background 0.3s;
+}
+
+.dropdown-content a:hover {
+  background-color: #f0f4ff;
+}
+
+/* Logout button styling (unchanged) */
+.logout-btn {
+  background: #e74c3c;
+  border: none;
+  padding: 8px 14px;
+  border-radius: 6px;
+  color: white;
+  cursor: pointer;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  transition: background 0.3s;
+}
+
+.logout-btn:hover {
+  background: #c0392b;
 }
 
 #searchBar {
@@ -266,7 +328,7 @@ header {
   left: 0;
   width: 100vw;   /* full viewport width */
   height: 100vh;  /* full viewport height */
-  background-color: rgba(6, 255, 26, 0.4); /* semi-transparent black */
+  background-color: rgba(119, 119, 119, 0.4); /* semi-transparent black */
   z-index: 1000; /* behind modal but above everything else */
 }
 

@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Inventory Dashboard</title>
+  <link rel="stylesheet" href="account_list.css">
+</head>
+
+<body>
+  <header>
+    <div class="header-left">
+      <button id="menuToggle" class="menu-btn">☰ Menu</button>
+    </div>
+
+  <div id="sidebarMenu" class="sidebar-menu">
+    <a href="account_detail.php">Account Details</a>
+    <a href="inventory.php">Inventory Table</a>
+    <a href="add_item.php">Add Item</a>
+    <a href="edit_delete.php">Edit / Delete</a>
+    <a href="categories.php">Categories</a>
+    <div class="menu_block"></div>
+    <a href="account_list.php">Account Details</a>
+  </div>
+  
+  <h1 class="header-title">Account List</h1>
+
+  <div class="header-right">
+    <span id="greeting">Hello, User!</span>
+    <button id="logoutBtn" class="logout-btn">🚪 Logout</button>
+  </div>
+</header>
+  
+  <br><br>
+
+
+            <!-- Account Management Card -->
+        <div class="card">
+        <h2>👤 Add New Account</h2>
+
+        <form action="account_dashboard.php" method="POST" id="addForm" name="accountForm" class="account-form">
+
+            <label for="accountName">Full Name</label>
+            <input type="text" id="accountName" placeholder="Enter full name" name="account_name" required>
+
+            <label for="username">Username</label>
+            <input type="text" id="username" placeholder="Enter username" name="username" required>
+
+            <label for="password">Password</label>
+            <input type="password" id="password" placeholder="Enter password" name="password" required>
+
+            <label for="email">Email</label>
+            <input type="email" id="email" placeholder="Enter email address" name="email" required>
+
+            <label for="userRole">User Role</label>
+            <select id="userRole" name="user_role" required>
+            <option value="">Select Role</option>
+            <option value="Admin">Admin</option>
+            <option value="Regular">Staff</option>
+            </select>
+
+            <button id="addAccountBtn" type="submit" name="submit">➕ Add Account</button>
+        </form>
+        </div>
+
+                <!-- Account List Table -->
+        <div class="table-container">
+            <h3>ACCOUNT LIST (<span id="accountCount">0</span> users)</h3>
+
+            <input type="text" id="searchAccount" placeholder="🔍 Search accounts...">
+        </div>
+
+        <table>
+            <thead>
+            <tr>
+                <th>Account ID</th>
+                <th>Account Name</th>
+                <th>Username</th>
+                <th>Password</th>
+                <th>Email</th>
+                <th>User Role</th>
+                <th>Actions</th>
+            </tr>
+            </thead>
+
+            <tbody id="accountBody">
+            <!-- Accounts loaded dynamically from PHP -->
+            </tbody>
+        </table>
+
+      <!-- User Activity Panel -->
+      <div class="card recents-panel">
+        <h2>User Activity</h2>
+        <ul id="recentsList"></ul>
+      </div>
+    </div>
+  </div>
+
+      <!-- Edit Modal -->
+        <div id="editModal" class="modal" style="display:none;">
+          <div class="modal-content">
+            <h3>Edit Product</h3>
+            <input type="text" id="editName" placeholder="Product Name">
+            <select id="editCategory">
+              <option value="Food">Food</option>
+              <option value="Drinks">Drinks</option>
+              <option value="Other">Other</option>
+            </select>
+            <input type="date" id="editExpiry">
+            <input type="number" id="editQty" placeholder="Quantity">
+            <div class="modal-actions">
+              <button id="saveEdit">Save</button>
+              <button id="cancelEdit">Cancel</button>
+            </div>
+          </div>
+        </div>
+
+  
+  <div id="overlay" style="display:none;"></div>
+  <script src="account_list.js"></script>
+
+
+</script>
+
+</body>
+
+</html>

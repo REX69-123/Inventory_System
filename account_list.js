@@ -1,7 +1,7 @@
 document.addEventListener("DOMContentLoaded", () => {
   const addForm = document.getElementById("addForm");
-  const inventoryBody = document.getElementById("inventoryBody");
-  const count = document.getElementById("count");
+  const accountBody = document.getElementById("accountBody");
+  const count = document.getElementById("accountCount");
   const filterCategory = document.getElementById("filterCategory");
   const filterExpiry = document.getElementById("filterExpiry");
   const searchBar = document.getElementById("searchBar");
@@ -10,8 +10,8 @@ document.addEventListener("DOMContentLoaded", () => {
   
 
   // Load inventory from PHP
-  function loadInventory() {
-  fetch('get_inventory.php')
+  function loadAccounts() {
+  fetch('get_account_list.php')
     .then(res => {
       if (!res.ok) {
         throw new Error("HTTP error " + res.status);
@@ -20,14 +20,13 @@ document.addEventListener("DOMContentLoaded", () => {
     })
     .then(html => {
       console.log("PHP returned:", html); // Debug raw HTML
-      inventoryBody.innerHTML = html.trim();
-      applyFilters(); // ✅ Apply filters after loading new data
-      attachDeleteListeners(); // Applys the deletebutton function
-      attachEditListeners(); // Applys the edit function
-
+      accountBody.innerHTML = html.trim();
+      // applyFilters(); // ✅ Apply filters after loading new data
+      // attachDeleteListeners(); // Applys the deletebutton function
+      // attachEditListeners(); // Applys the edit function
 
       // Count only rows that have real data (exclude the "No inventory found" row)
-      const rows = inventoryBody.querySelectorAll("tr");
+      const rows = accountBody.querySelectorAll("tr");
       if (rows.length === 1 && rows[0].textContent.includes("No inventory found")) {
         count.textContent = 0;
       } else {
@@ -36,18 +35,18 @@ document.addEventListener("DOMContentLoaded", () => {
     })
     .catch(err => {
       console.error("Error loading inventory:", err);
-      inventoryBody.innerHTML = '<tr><td colspan="6">Error loading inventory</td></tr>';
+      accountBody.innerHTML = '<tr><td colspan="6">Error loading inventory</td></tr>';
       count.textContent = 0;
     });
 }
 
-  // Submit form via AJAX
+  // Submit account form via AJAX
   addForm.addEventListener("submit", function (e) {
     e.preventDefault();
 
     const formData = new FormData(addForm);
 
-    fetch('dashboard.php', {
+    fetch('account_list.php', {
       method: 'POST',
       body: formData
     })
@@ -57,16 +56,16 @@ document.addEventListener("DOMContentLoaded", () => {
        console.log("Server returned:", JSON.stringify(result)); // see exact output
 
       if (result) {
-        alert("Product added successfully!");
+        alert("Account added successfully!");
         addForm.reset();
-        loadInventory(); // Refresh table
+        loadAccounts(); // Refresh table
       } else {
-        alert("Failed to add product: " + result);
+        alert("Failed to add account: " + result);
       }
     })
     .catch(err => {
       console.error("Add error:", err);
-      alert("Failed to submit.");
+      alert("Failed to create.");
     });
   });
 
@@ -227,18 +226,6 @@ document.getElementById("saveEdit").addEventListener("click", function () {
   document.getElementById("dropdownMenu").classList.toggle("show");
 }
 
-// Close dropdown if clicked outside
-window.onclick = function(event) {
-  if (!event.target.matches('.menu-btn')) {
-    var dropdowns = document.getElementsByClassName("dropdown-content");
-    for (let dropdown of dropdowns) {
-      if (dropdown.classList.contains('show')) {
-        dropdown.classList.remove('show');
-      }
-    }
-  }
-}
-
 
 
 // the cancel button from th edit modal
@@ -248,10 +235,10 @@ document.getElementById('overlay').style.display = 'none';
 });
 
   // Initial load
-  loadInventory();
+  loadAccounts();
   
   
-  filterCategory.addEventListener("change", applyFilters);
+  // filterCategory.addEventListener("change", applyFilters);
   filterExpiry.addEventListener("change", applyFilters);
   searchBar.addEventListener("input", applyFilters);
 });

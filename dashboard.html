@@ -10,11 +10,28 @@
 
 <body>
   <header>
-    <h1>WELCOME ADMIN USER</h1>
-    <div class="header-actions">
-      <button id="logoutBtn" class="logout-btn">🚪 Logout</button>
+  <div class="header-left">
+    <div class="dropdown">
+      <button id="menuToggle" class="menu-btn">☰ Menu</button>
+      <div id="dropdownContent" class="dropdown-content">
+        <a href="account_detail.php">Account Details</a>
+        <a href="inventory.php">Inventory Table</a>
+        <a href="add_item.php">Add Item</a>
+        <a href="edit_delete.php">Edit / Delete</a>
+        <a href="categories.php">Categories</a>
+        <div class="menu_block"></div>
+        <a href="account_list.php">Account Details</a>
+      </div>
     </div>
-  </header>
+  </div>
+
+  <h1 class="header-title">Neneng's Inventory System</h1>
+
+  <div class="header-right">
+    <span id="greeting">Hello, User!</span>
+    <button id="logoutBtn" class="logout-btn">🚪 Logout</button>
+  </div>
+</header>
   
   <br><br>
 
@@ -50,8 +67,8 @@
         <select id="filterExpiry">
           <option value="all">All Expiry</option>
           <option value="expired">Expired</option>
-          <option value="soon">Soon to Expire</option>
-          <option value="valid">Not Expired</option>
+          <option value="soon">Soon</option>
+          <option value="valid">Valid</option>
         </select>
 
         <input type="text" id="searchBar" placeholder="🔎 Search products...">
@@ -107,7 +124,7 @@
         </div>
 
   
-  <div id="overlay" style="display:block;"></div>
+  <div id="overlay" style="display:none;"></div>
   <script src="dscript.js"></script>
 
 

@@ -1,0 +1,254 @@
+
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Segoe UI", Tahoma, sans-serif;
+}
+
+body {
+  background: #f4f6f9;
+  color: #333;
+}
+
+/* Header style (consistent with dstyle.css) */
+header {
+  background: linear-gradient(90deg, #0066ff, #00c3ff);
+  color: white;
+  padding: 18px 25px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Dropdown button */
+.menu-btn {
+  background: #00c3ff;
+  color: white;
+  border: none;
+  padding: 8px 14px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background 0.3s;
+}
+
+.menu-btn:hover {
+  background: #0099cc;
+}
+
+/* Dropdown container */
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+/* Hidden by default */
+.dropdown-content {
+  display: none; /* hidden by default */
+  position: absolute;
+  background-color: white;
+  min-width: 160px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+  border-radius: 6px;
+  overflow: hidden;
+  z-index: 9999; /* on top */
+  top: 40px;
+  left: 0;
+}
+
+/* Show dropdown */
+.dropdown-content.show {
+  display: block;
+}
+
+.dropdown-content a {
+  color: #333;
+  padding: 10px 14px;
+  text-decoration: none;
+  display: block;
+  font-size: 14px;
+  transition: background 0.3s;
+}
+
+.dropdown-content a:hover {
+  background-color: #f0f4ff;
+}
+
+/* Main container card */
+.card {
+  background: white;
+  padding: 25px;
+  margin: 40px auto;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+  max-width: 1100px;  /* wider to fit table */
+  width: 50%;
+}
+
+/* Title inside the card */
+.card h2 {
+  color: #0066ff;
+  font-size: 20px;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+/* Account Form Styling (vertical layout) */
+.account-form {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.account-form label {
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 3px;
+}
+
+.account-form input,
+.account-form select {
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  padding: 10px 12px;
+  font-size: 14px;
+  width: 100%;
+  transition: 0.2s;
+}
+
+.account-form input:focus,
+.account-form select:focus {
+  border-color: #0066ff;
+  box-shadow: 0 0 4px rgba(0, 102, 255, 0.3);
+  outline: none;
+}
+
+/* Submit button */
+#addAccountBtn {
+  margin-top: 15px;
+  background-color: #0066ff;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  padding: 10px 0;
+  font-size: 15px;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+#addAccountBtn:hover {
+  background-color: #0044cc;
+}
+
+/* Table styling for account list */
+
+.table-container {
+  width: 90%;
+  max-width: 1100px;
+  margin: 40px auto;
+  background: white;
+  padding: 25px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+}
+
+table {
+  width: 100%; /* fill the container */
+  border-collapse: collapse;
+  table-layout: fixed;
+  margin-top: 20px;
+}
+
+th, td {
+  padding: 16px 20px; /* more padding for better spacing */
+  text-align: center;
+  border-bottom: 1px solid #eee;
+  font-size: 16px; /* slightly larger font */
+  word-wrap: break-word; /* prevent overflow */
+}
+
+th {
+  background: #f0f4ff;
+  color: #333;
+  font-weight: 600;
+}
+
+button {
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+button,
+select,
+input[type="text"],
+input[type="date"],
+input[type="number"] {
+  border: none;
+  padding: 10px 12px;
+  border-radius: 8px;
+  outline: none;
+  font-size: 14px;
+}
+
+/* Action buttons */
+.action-btn {
+  border: none;
+  padding: 6px 10px;
+  margin: 2px;
+  border-radius: 6px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.edit-btn {
+  background: #facc15;
+  color: #fff;
+}
+
+.edit-btn:hover {
+  background: #eab308;
+}
+
+.delete-btn {
+  background: #ef4444;
+  color: #fff;
+}
+
+.delete-btn:hover {
+  background: #dc2626;
+}
+
+
+.logout-btn {
+  background: #e74c3c;
+  border: none;
+  padding: 8px 14px;
+  border-radius: 6px;
+  color: white;
+  cursor: pointer;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  transition: background 0.3s;
+}
+
+.logout-btn:hover {
+  background: #c0392b;
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+  .card {
+    margin: 20px;
+    padding: 15px;
+  }
+
+  .card h2 {
+    font-size: 18px;
+  }
+}

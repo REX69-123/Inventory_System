@@ -1,14 +1,13 @@
-CREATE DATABASE InventorySys_db;
-USE InventorySys_db;
+CREATE DATABASE database_dashboard;
+USE database_dashboard;
+;
 
-CREATE TABLE items (
+CREATE TABLE product_inventory(
     id INT AUTO_INCREMENT PRIMARY KEY,
-    name VARCHAR(100) NOT NULL,
-    description TEXT,
+    product_inventory_name VARCHAR(100) NOT NULL,
     category VARCHAR(50),
     expiry DATE,
     quantity INT DEFAULT 0,
-    price DECIMAL(10,2) DEFAULT 0.00
 );
 
 CREATE TABLE transactions (

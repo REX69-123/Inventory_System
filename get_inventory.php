@@ -46,7 +46,7 @@ if ($result && $result->num_rows > 0) {
                 data-expiry='{$date}' 
                 data-qty='{$qty}'
                 >✏️ Edit</button>
-                <button class='deleteBtn' data-id='{$id}'>🗑️ Delete_$id</button>
+                <button class='deleteBtn' data-id='{$id}'>🗑️ Delete</button>
               </td>";
         echo "</tr>";
     }
