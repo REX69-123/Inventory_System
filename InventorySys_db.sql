@@ -10,13 +10,12 @@ CREATE TABLE product_inventory(
     quantity INT DEFAULT 0,
 );
 
-CREATE TABLE transactions (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    item_id INT NOT NULL,
-    quantity INT NOT NULL,
-    transaction_date DATETIME DEFAULT CURRENT_TIMESTAMP,
-    type ENUM('ADD','REMOVE','EDIT','DELETE') DEFAULT 'ADD',
-    FOREIGN KEY (item_id) REFERENCES items (id)
+CREATE TABLE account_list (
+    account_id INT AUTO_INCREMENT PRIMARY KEY,
+    account_name VARCHAR(100),
+    username VARCHAR(100),
+    email VARCHAR(100),
+    user_role VARCHAR(100)
 );
 
 UPDATE items
