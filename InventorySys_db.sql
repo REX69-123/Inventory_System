@@ -17,11 +17,3 @@ CREATE TABLE account_list (
     email VARCHAR(100),
     user_role VARCHAR(100)
 );
-
-UPDATE items
-SET name = ?,
-    category = ?,
-    expiry = ?, 
-    quantity = ?,
-    price = ?
-WHERE id = ?;
