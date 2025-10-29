@@ -17,8 +17,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $date = trim($_POST["date"]);
     $quantity = trim(intval($_POST["quantity"]));
 
-
-
     $stmt = $conn->prepare("UPDATE product_inventory SET product_name=?, category=?, date=?, quantity=? WHERE id=?");
     $stmt->bind_param("sssii", $name, $category, $date, $quantity, $id);
 

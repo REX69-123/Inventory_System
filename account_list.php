@@ -1,4 +1,14 @@
 <?php
+session_start();
+
+// User validation
+if (!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] !== true) {
+    header("Location: login.html");
+    exit;
+}
+?>
+
+<?php
 // Place this at the top of dashboard.php (before any HTML)
 $servername = "localhost"; 
 $username = "root";        

@@ -1,3 +1,20 @@
+
+fetch('session_check.php')
+  .then(res => res.json())
+  .then(data => {
+    if (data.logged_in) {
+      document.getElementById("features").style.display = "block";
+      document.getElementById("greeting").textContent = `Hello, ${data.user_name} (${data.username})!`;
+    } else {
+      window.location.href = "login.html";
+      alert("You must log in to access this page.");
+    }
+  })
+  .catch(err => {
+    console.error("Session check failed:", err);
+    window.location.href = "login.html";
+  });
+
 document.addEventListener("DOMContentLoaded", () => {
   const addForm = document.getElementById("addForm");
   const inventoryBody = document.getElementById("inventoryBody");
@@ -5,10 +22,8 @@ document.addEventListener("DOMContentLoaded", () => {
   const filterCategory = document.getElementById("filterCategory");
   const filterExpiry = document.getElementById("filterExpiry");
   const searchBar = document.getElementById("searchBar");
-  const menuToggle = document.getElementById("menuToggle");
-  const dropdownContent = document.getElementById("dropdownContent");
+  const logoutBtn = document.getElementById("logoutBtn");
   
-
   // Load inventory from PHP
   function loadInventory() {
   fetch('get_inventory.php')
@@ -239,7 +254,28 @@ window.onclick = function(event) {
   }
 }
 
+// Logout button
+logoutBtn.addEventListener("click", () => {
+  const confirmLogout = confirm("Are you sure you want to logout?");
+  if (confirmLogout) {
+    fetch("logout.php", { method: "POST" })
+      .then(() => {
+        // Clear any local storage if needed
+        localStorage.removeItem("user_name");
+        // Redirect to login page
+        window.location.href = "login.html";
+      })
+      .catch(error => {
+        console.error("Logout error:", error);
+        alert("Logout failed. Please try again.");
+      });
+  }
+});
 
+// the account list button
+document.getElementById("accountListBtn").addEventListener("click", () => {
+  window.location.href = "admin_account_list.html"; // or .html if you load it that way
+});
 
 // the cancel button from th edit modal
 document.getElementById("cancelEdit").addEventListener("click", function () {

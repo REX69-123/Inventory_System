@@ -1,3 +1,20 @@
+
+// User Validation
+  fetch('session_check.php') // your existing session check script
+    .then(res => res.json())
+    .then(data => {
+      if (!data.logged_in) {
+        alert("You must log in to access this page.");
+        window.location.href = "login.html";
+      } else {
+        document.getElementById("greeting").textContent = `Hello, ${data.user_name}!`;
+      }
+    })
+    .catch(err => {
+    console.error("User validation error:", err);
+    window.location.href = "login.html";
+});
+
 document.addEventListener("DOMContentLoaded", () => {
   const addForm = document.getElementById("addForm");
   const accountBody = document.getElementById("accountBody");
@@ -5,9 +22,9 @@ document.addEventListener("DOMContentLoaded", () => {
   const filterCategory = document.getElementById("filterCategory");
   const filterExpiry = document.getElementById("filterExpiry");
   const searchBar = document.getElementById("searchBar");
-  const menuToggle = document.getElementById("menuToggle");
-  const dropdownContent = document.getElementById("dropdownContent");
+  const logoutButton = document.getElementById("logoutBtn");
   
+
 
   // Load inventory from PHP
   function loadAccounts() {
@@ -220,13 +237,33 @@ document.getElementById("saveEdit").addEventListener("click", function () {
       alert("Error updating product.");
     })});
 
-    //Dropdown Button functionality
 
-    function toggleDropdown() {
-  document.getElementById("dropdownMenu").classList.toggle("show");
-}
+logoutButton.addEventListener("click", () => {
+
+  const confirmLogout = confirm("Are you sure you want to logout?");
+  if (confirmLogout) {
+    // Send logout request to PHP
+    fetch("logout.php", { method: "POST" })
+      .then(response => response.text())
+      .then(result => {
+        console.log("Logout response:", result.trim());
+        // Redirect user to login page
+        window.location.href = "login.html";
+      })
+      .catch(error => {
+        console.error("Logout error:", error);
+        alert("Logout failed. Please try again.");
+      });
+  } else {
+    console.log("Logout canceled by user.");
+  }
+});
 
 
+// Button to go back to dashboard
+  document.getElementById("dashboardBtn").addEventListener("click", () => {
+    window.location.href = "dashboard.html";
+  });
 
 // the cancel button from th edit modal
 document.getElementById("cancelEdit").addEventListener("click", function () {

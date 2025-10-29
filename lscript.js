@@ -1,23 +1,36 @@
 document.addEventListener("DOMContentLoaded", function () {
-    const loginForm = document.querySelector("form");
-    const emailInput = document.getElementById("email");
-    const passInput = document.getElementById("pass");
+  const loginForm = document.querySelector("#loginForm");
+  const usernameInput = document.getElementById("username");
+  const passInput = document.getElementById("pass");
 
-    loginForm.addEventListener("submit", function (e) {
-        e.preventDefault();
+  loginForm.addEventListener("submit", function (e) {
+    e.preventDefault();
 
-        let email = emailInput.value.trim();
-        let password = passInput.value.trim();
+    let username = usernameInput.value.trim();
+    let password = passInput.value.trim();
 
-        if (email === "" || password === "") {
-            alert("Please fill in all fields.");
-            return;
-        }
+    if (!username || !password) {
+      alert("Please fill in all fields.");
+      return;
+    }
 
-        if (email === "a" && password === "123") {
-            window.location.href = "dashboard.html";
-        } else {
-            alert("Invalid email or password.");
-        }
+    fetch("login.php", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ username, password })
+    })
+    .then(res => res.json())
+    .then(data => {
+      if (data.success) {
+        localStorage.setItem("user_name", data.user_name);
+        window.location.href = "user_validation.php";
+      } else {
+        alert(data.message || "Invalid credentials.");
+      }
+    })
+    .catch(err => {
+      console.error("Login error:", err);
+      alert("Login request failed.");
     });
+  });
 });
