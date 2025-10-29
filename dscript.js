@@ -260,10 +260,10 @@ if (logoutBtn) {
 
     const confirmLogout = confirm("Are you sure you want to logout?");
   if (confirmLogout) {
-
     fetch("logout.php")
-      .then(() => {
+      .then(() => {-
         localStorage.removeItem("user_name");
+        window.location.reload(true); // deprecated, better alternative below
         window.location.href = "login.html";
       });
 }});
