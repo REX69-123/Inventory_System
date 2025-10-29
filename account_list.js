@@ -1,19 +1,21 @@
 
 // User Validation
-  fetch('session_check.php') // your existing session check script
-    .then(res => res.json())
-    .then(data => {
-      if (!data.logged_in) {
-        alert("You must log in to access this page.");
-        window.location.href = "login.html";
-      } else {
-        document.getElementById("greeting").textContent = `Hello, ${data.user_name}!`;
-      }
-    })
-    .catch(err => {
-    console.error("User validation error:", err);
+  fetch('session_check.php')
+  .then(res => res.json())
+  .then(data => {
+    if (data.logged_in) {
+      document.getElementById("features").style.display = "block";
+      document.getElementById("greeting").textContent = `Hello, ${data.user_name} (${data.username})!`;
+    } else {
+      alert("You must log in to access this page.");
+      window.location.href = "login.html";
+      
+    }
+  })
+  .catch(err => {
+    console.error("Session check failed:", err);
     window.location.href = "login.html";
-});
+  });
 
 document.addEventListener("DOMContentLoaded", () => {
   const addForm = document.getElementById("addForm");
@@ -22,7 +24,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const filterCategory = document.getElementById("filterCategory");
   const filterExpiry = document.getElementById("filterExpiry");
   const searchBar = document.getElementById("searchBar");
-  const logoutButton = document.getElementById("logoutBtn");
+  const logoutBtn = document.getElementById("logoutBtn");
   
 
 
@@ -238,26 +240,19 @@ document.getElementById("saveEdit").addEventListener("click", function () {
     })});
 
 
-logoutButton.addEventListener("click", () => {
+if (logoutBtn) {
+  logoutBtn.addEventListener("click", () => {
 
-  const confirmLogout = confirm("Are you sure you want to logout?");
+    const confirmLogout = confirm("Are you sure you want to logout?");
   if (confirmLogout) {
-    // Send logout request to PHP
-    fetch("logout.php", { method: "POST" })
-      .then(response => response.text())
-      .then(result => {
-        console.log("Logout response:", result.trim());
-        // Redirect user to login page
+
+    fetch("logout.php")
+      .then(() => {
+        localStorage.removeItem("user_name");
         window.location.href = "login.html";
-      })
-      .catch(error => {
-        console.error("Logout error:", error);
-        alert("Logout failed. Please try again.");
       });
-  } else {
-    console.log("Logout canceled by user.");
-  }
-});
+}});
+}
 
 
 // Button to go back to dashboard

@@ -6,8 +6,9 @@ fetch('session_check.php')
       document.getElementById("features").style.display = "block";
       document.getElementById("greeting").textContent = `Hello, ${data.user_name} (${data.username})!`;
     } else {
-      window.location.href = "login.html";
       alert("You must log in to access this page.");
+      window.location.href = "login.html";
+      
     }
   })
   .catch(err => {
@@ -254,23 +255,19 @@ window.onclick = function(event) {
   }
 }
 
-// Logout button
-logoutBtn.addEventListener("click", () => {
-  const confirmLogout = confirm("Are you sure you want to logout?");
+if (logoutBtn) {
+  logoutBtn.addEventListener("click", () => {
+
+    const confirmLogout = confirm("Are you sure you want to logout?");
   if (confirmLogout) {
-    fetch("logout.php", { method: "POST" })
+
+    fetch("logout.php")
       .then(() => {
-        // Clear any local storage if needed
         localStorage.removeItem("user_name");
-        // Redirect to login page
         window.location.href = "login.html";
-      })
-      .catch(error => {
-        console.error("Logout error:", error);
-        alert("Logout failed. Please try again.");
       });
-  }
-});
+}});
+}
 
 // the account list button
 document.getElementById("accountListBtn").addEventListener("click", () => {
