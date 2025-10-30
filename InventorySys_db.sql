@@ -1,6 +1,6 @@
 CREATE DATABASE database_dashboard;
 USE database_dashboard;
-;
+
 
 CREATE TABLE product_inventory(
     id INT AUTO_INCREMENT PRIMARY KEY,

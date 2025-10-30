@@ -2,13 +2,14 @@
 fetch('session_check.php')
   .then(res => res.json())
   .then(data => {
-    if (data.logged_in) {
+    if (data.logged_in === true) {
       document.getElementById("features").style.display = "block";
       document.getElementById("greeting").textContent = `Hello, ${data.user_name} (${data.username})!`;
     } else {
+      document.getElementById("features").style.display = "none";
       alert("You must log in to access this page.");
       window.location.href = "login.html";
-      
+
     }
   })
   .catch(err => {
@@ -262,9 +263,10 @@ if (logoutBtn) {
   if (confirmLogout) {
     fetch("logout.php")
       .then(() => {-
-        localStorage.removeItem("user_name");
         window.location.reload(true); // deprecated, better alternative below
+        localStorage.removeItem("user_name");
         window.location.href = "login.html";
+        window.location.reload(true); // deprecated, better alternative below
       });
 }});
 }
