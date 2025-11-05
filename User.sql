@@ -1,12 +1,15 @@
-CREATE DATABASE Users;
-USE Users;
 
-CREATE TABLE users (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    Username VARCHAR(255) NOT NULL,
-    Password VARCHAR(255) NOT NULL
+USE database_dashboard;
+
+CREATE TABLE account_list (
+    account_id INT AUTO_INCREMENT PRIMARY KEY,
+    account_name VARCHAR(100),
+    username VARCHAR(100),
+    password VARCHAR(100),
+    email VARCHAR(100),
+    user_role VARCHAR(100)
 );
 
-INSERT INTO users (Username, password)
-VALUES ('Default User', 'user', '123');
+INSERT INTO account_list (account_name, username, `password`, email, user_role)
+VALUES ('Tester', 'admin123', 'admin321', 'admin123@gmail.com', 'Admin');
 

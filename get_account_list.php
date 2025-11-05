@@ -29,7 +29,6 @@ if ($result && $result->num_rows > 0) {
         echo "<td>{$id}</td>";
         echo "<td>{$account_name}</td>";
         echo "<td>{$username}</td>";
-        echo "<td>{$password}</td>";
         echo "<td>{$email}</td>";
         echo "<td>{$user_role}</td>";
         echo "<td>
